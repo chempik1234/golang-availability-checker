@@ -5,13 +5,19 @@ import (
 	"os"
 )
 
+type Webhook struct {
+	Url     string            `yaml:"url"`
+	Headers map[string]string `yaml:"headers"`
+}
+
 type Checker struct {
-	Name            string `yaml:"name"`
-	Host            string `yaml:"host"`
-	Protocol        string `yaml:"protocol"`
-	Port            string `yaml:"port"`
-	IntervalSeconds int    `yaml:"interval_seconds"`
-	TimeoutSeconds  int    `yaml:"timeout_seconds"`
+	Name            string    `yaml:"name"`
+	Host            string    `yaml:"host"`
+	Protocol        string    `yaml:"protocol"`
+	Port            string    `yaml:"port"`
+	IntervalSeconds int       `yaml:"interval_seconds"`
+	TimeoutSeconds  int       `yaml:"timeout_seconds"`
+	Webhooks        []Webhook `yaml:"webhooks"`
 }
 
 type Service struct {
