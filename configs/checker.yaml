@@ -1,0 +1,9 @@
+version: v1
+
+services:
+  - name: yandex
+    host: "ya.ru"
+    protocol: "http"
+    port: "80"
+    interval_seconds: 5
+    timeout_seconds: 5
