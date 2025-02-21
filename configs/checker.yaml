@@ -5,5 +5,9 @@ services:
     host: "ya.ru"
     protocol: "http"
     port: "80"
-    interval_seconds: 5
-    timeout_seconds: 5
+    interval_seconds: 100
+    timeout_seconds: 50
+    webhooks:
+      - url: "http://127.0.0.1:8085/"
+        headers:
+          Authorization: "Token 1234"
