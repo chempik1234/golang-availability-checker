@@ -6,6 +6,7 @@ import (
 	"github.com/chempik1234/golang-availability-checker/pkg/logger"
 	"github.com/chempik1234/golang-availability-checker/pkg/v1/parsed"
 	"go.uber.org/zap"
+	"io"
 	"net"
 	"net/http"
 	"time"
@@ -78,9 +79,21 @@ func (w *Manager) Report(httpBody string) {
 				return
 			}
 			if response.StatusCode != webhook.StatusCode {
+				respBody := response.Body
+				defer respBody.Close()
+
+				data, err := io.ReadAll(respBody)
+				if err != nil {
+					data = []byte("couldn't read response body")
+				}
+
 				logger.GetLoggerFromCtx(w.ctx).Error(
 					w.ctx,
-					"webhook doesn't answer 200 on POST request",
+					"webhook doesn't answer with needed code on POST request",
+					zap.Int("expected", webhook.StatusCode),
+					zap.Int("actual", response.StatusCode),
+					zap.String("sent", httpBody),
+					zap.String("message", string(data)),
 					zap.String("url", webhook.Url),
 					zap.Error(err),
 				)

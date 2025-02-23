@@ -5,10 +5,10 @@ services:
     host: "ya.ru"
     protocol: "http"
     port: "80"
-    interval_seconds: 100
+    interval_seconds: 5
     timeout_seconds: 50
     webhooks:
-      - url: "http://127.0.0.1:8085/"
+      - url: "http://172.26.112.1:8085/"
         headers:
-          Authorization: "Token 1234"
+          Authorization: "Token d18ff790-3fa4-4303-94e2-3a1696b17720"
         status_code: 204
