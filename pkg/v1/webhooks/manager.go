@@ -12,8 +12,9 @@ import (
 )
 
 type Webhook struct {
-	Url     string
-	Headers map[string]string
+	Url        string
+	Headers    map[string]string
+	StatusCode int
 }
 
 type Manager struct {
@@ -34,8 +35,9 @@ func NewManager(ctx context.Context, checker parsed.Checker) (Manager, error) {
 	webhooks := make([]Webhook, len(checker.Webhooks))
 	for i, webhook := range checker.Webhooks {
 		webhooks[i] = Webhook{
-			Url:     webhook.Url,
-			Headers: webhook.Headers,
+			Url:        webhook.Url,
+			Headers:    webhook.Headers,
+			StatusCode: webhook.StatusCode,
 		}
 	}
 	return Manager{
@@ -75,7 +77,7 @@ func (w *Manager) Report(httpBody string) {
 				)
 				return
 			}
-			if response.StatusCode != http.StatusOK {
+			if response.StatusCode != webhook.StatusCode {
 				logger.GetLoggerFromCtx(w.ctx).Error(
 					w.ctx,
 					"webhook doesn't answer 200 on POST request",

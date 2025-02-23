@@ -6,8 +6,9 @@ import (
 )
 
 type Webhook struct {
-	Url     string            `yaml:"url"`
-	Headers map[string]string `yaml:"headers"`
+	Url        string            `yaml:"url"`
+	Headers    map[string]string `yaml:"headers"`
+	StatusCode int               `yaml:"status"`
 }
 
 type Checker struct {
