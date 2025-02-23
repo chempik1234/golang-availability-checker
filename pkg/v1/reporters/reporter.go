@@ -9,6 +9,7 @@ import (
 	"github.com/chempik1234/golang-availability-checker/pkg/v1/webhooks"
 	"go.uber.org/zap"
 	"sync"
+	"time"
 )
 
 type Reporter struct {
@@ -54,7 +55,10 @@ func (r *Reporter) Run(wg *sync.WaitGroup) {
 			zap.String("name", r.Name),
 			zap.Bool("result", result),
 		)
-		httpBody := webhooks.FormHTTPBody(r.Name, result)
+
+		timeMark := time.Now()
+
+		httpBody := webhooks.FormHTTPBody(r.Name, result, timeMark)
 		r.webhooksManager.Report(httpBody)
 	}
 }
